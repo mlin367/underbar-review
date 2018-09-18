@@ -83,16 +83,51 @@
 
   // Return all elements of an array that pass a truth test.
   _.filter = function(collection, test) {
+    let newArr = [];
+    for(let elem of collection){
+      if(test(elem)){
+        newArr.push(elem);
+      }
+    }
+    return newArr;
   };
 
   // Return all elements of an array that don't pass a truth test.
   _.reject = function(collection, test) {
     // TIP: see if you can re-use _.filter() here, without simply
     // copying code in and modifying it
+    let newArr = [];
+    for(let elem of collection){
+      if(!test(elem)){
+        newArr.push(elem);
+      }
+    }
+    return newArr;
+    
   };
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array, isSorted, iterator) {
+    var newArr = [];
+
+    if (!isSorted) {
+      _.each(array, function (v) {
+        if(!(v in newArr)){  
+          newArr.push(v);
+        }
+      })
+      return newArr;
+    }else{
+      let boolean = iterator(array[0]);
+      newArr.push(array[0]);
+      for (var i = 1; i < array.length; i++) {
+        if(iterator(array[i]) !== boolean){
+          newArr.push(array[i]);
+          break;
+        }
+      }
+      return newArr; 
+    }
   };
 
 
@@ -101,7 +136,15 @@
     // map() is a useful primitive iteration function that works a lot
     // like each(), but in addition to running the operation on all
     // the members, it also maintains an array of results.
-  };
+  var newArr = [];
+
+  if (Array.isArray(collection)) {
+    for (var i = 0; i < collection.length; i++) {
+      newArr.push(iterator(collection[i]));
+    }
+  return newArr;
+  } 
+};
 
   /*
    * TIP: map is really handy when you want to transform an array of
